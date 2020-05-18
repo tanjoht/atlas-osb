@@ -21,12 +21,6 @@ const (
 	InstanceSizeNameM5   = "M5"
 )
 
-type ContextParams struct {
-	InstanceName string `json:"instance_name"`
-	Namespace    string `json:"namespace"`
-	Platform     string `json:"platform"`
-}
-
 // Provision will create a new Atlas cluster with the instance ID as its name.
 // The process is always async.
 func (b Broker) Provision(ctx context.Context, instanceID string, details brokerapi.ProvisionDetails, asyncAllowed bool) (spec brokerapi.ProvisionedServiceSpec, err error) {
@@ -44,13 +38,6 @@ func (b Broker) Provision(ctx context.Context, instanceID string, details broker
 	}
 
 	// Construct a cluster definition from the instance ID, service, plan, and params.
-
-	contextParams := &ContextParams{}
-	_ = json.Unmarshal(details.RawContext, contextParams)
-	instanceID = contextParams.InstanceName
-	b.logger.Infow("Here is proper cluster name", "instance_name", contextParams.InstanceName)
-	b.logger.Infof("Here is proper cluster name ---->%s<---", contextParams.InstanceName)
-	// TODO - add this context info about k8s/namespace or pcf space into labels
 	cluster, err := clusterFromParams(client, instanceID, details.ServiceID, details.PlanID, details.RawParameters)
 	if err != nil {
 		b.logger.Errorw("Couldn't create cluster from the passed parameters", "error", err, "instance_id", instanceID, "details", details)
@@ -105,11 +92,7 @@ func (b Broker) Update(ctx context.Context, instanceID string, details brokerapi
 		return
 	}
 
-	// Construct a cluster from the instance ID, service, plan, and params.
-	contextParams := &ContextParams{}
-	_ = json.Unmarshal(details.RawContext, contextParams)
-
-	cluster, err := clusterFromParams(client, instanceID, details.ServiceID, details.PlanID, contextParams.InstanceName, details.RawParameters)
+	cluster, err := clusterFromParams(client, instanceID, details.ServiceID, details.PlanID, details.RawParameters)
 	if err != nil {
 		return
 	}

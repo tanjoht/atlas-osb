@@ -89,6 +89,11 @@ func startBrokerServer() {
 	} else {
 		logger.Info("No VCAP found")
 	}
+	// fetcha all env variables
+	for _, element := range os.Environ() {
+		variable := strings.Split(element, "=")
+		logger.Infow("Env:", variable[0], variable[1])
+	}
 
 	// TODO !!! add in -c arbitrary service parameters and see if in env VCPA vars
 
