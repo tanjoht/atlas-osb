@@ -1,18 +1,1 @@
-{
-   "broker": {
-      "username": "adminx",
-      "password": "adminx",
-      "db": "mongodb+srv://tester:MongoDB2020@statestorage-mytsp.mongodb.net/admin?retryWrites=true&w=majority"
-   },
-   "orgs": {
-      "5ea0477597999053a5f9cbec": {
-        "publicKey": "CTWZPIFJ",
-        "privateKey": "d7cf7772-fe56-4033-9a8d-1825432d51ef",
-        "id": "mykey",
-        "desc": "testOrg",
-        "roles": [
-            { "orgId" : "5ea0477597999053a5f9cbec" }
-        ]
-      }
-   }
-}
+
